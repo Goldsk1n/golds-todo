@@ -1,0 +1,16 @@
+.select {
+    display: inline-block;
+    height: auto;
+    border-radius: 6px;
+    font-weight: 500;
+    font-size: 1.6rem;
+    text-decoration: none;
+    text-transform: capitalize;
+    overflow: hidden;
+    color: var(--black-2);
+    padding: 1rem;
+    border: none;
+    background-color: var(--bg-3);
+    width: 150px;
+    cursor: pointer;
+}
