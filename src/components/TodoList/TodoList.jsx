@@ -1,38 +1,47 @@
 import { useSelector } from "react-redux";
 import TodoItem from "../TodoItem/TodoItem";
-import { AnimatePresence, motion } from "framer-motion";
-
-const listVariants = {
-    hidden: { opacity: 1 },
-    visible: {
-        opacity: 1,
-        scale: 1,
-        transition: {
-            staggerChildren: 0.2,
-        },
-    },
-};
-
-const itemVariants = {
-    hidden: {
-        y: 20,
-        opacity: 0,
-    },
-    visible: {
-        y: 0,
-        scale: 1,
-    },
-};
+import { Droppable, DragDropContext } from "react-beautiful-dnd";
+import { useDispatch } from "react-redux";
+import { changeOrder } from "../../slices/todoSlice";
+import { useState } from "react";
 
 function TodoList() {
     const todoList = useSelector((state) => state.todo.todoList);
     const filterStatus = useSelector((state) => state.todo.filterStatus);
+    
+    const [isDragging, setIsDragging] = useState(false);
 
-    const sortedTodoList = [...todoList].sort(
-        (a, b) => new Date(a.time) - new Date(b.time)
-    );
+    const dispatch = useDispatch();
 
-    const filteredTodoList = sortedTodoList.filter((item) => {
+    const handleDragStart = () => {
+        setIsDragging(true);
+    }
+
+    const handleDragEnd = (result) => {
+        setIsDragging(false);
+        
+        const { destination, source } = result;
+
+        if (!destination) {
+            return;
+        }
+
+        if (
+            destination.droppableId === source.droppableId &&
+            destination.index === source.index
+        ) {
+            return;
+        }
+
+        dispatch(
+            changeOrder({
+                destination: destination.index,
+                source: source.index,
+            })
+        );
+    };
+
+    const filteredTodoList = todoList.filter((item) => {
         if (filterStatus === "all") {
             return true;
         } else {
@@ -41,24 +50,34 @@ function TodoList() {
     });
 
     return (
-        <motion.ul
-            className="todo-list"
-            variants={listVariants}
-            initial="hidden"
-            animate="visible"
+        <DragDropContext
+            onDragStart={handleDragStart}
+            onDragEnd={handleDragEnd}
         >
-            <AnimatePresence>
-                {filteredTodoList && filteredTodoList.length > 0 ? (
-                    filteredTodoList.map((item) => (
-                        <TodoItem key={item.id} todo={item}></TodoItem>
-                    ))
-                ) : (
-                    <motion.p className="empty-text" variants={itemVariants}>
-                        No Todos
-                    </motion.p>
+            <Droppable droppableId="drop-list">
+                {(provided) => (
+                    <ul
+                        ref={provided.innerRef}
+                        className="todo-list"
+                        {...provided.droppableProps}
+                        style={{paddingBottom: isDragging && "92px"}}
+                    >
+                        {/* {provided.placeholder} */}
+                        {filteredTodoList && filteredTodoList.length > 0 ? (
+                            filteredTodoList.map((item, index) => (
+                                <TodoItem
+                                    key={item.id}
+                                    todo={item}
+                                    index={index}
+                                />
+                            ))
+                        ) : (
+                            <p className="empty-text">No Todos</p>
+                        )}
+                    </ul>
                 )}
-            </AnimatePresence>
-        </motion.ul>
+            </Droppable>
+        </DragDropContext>
     );
 }
 

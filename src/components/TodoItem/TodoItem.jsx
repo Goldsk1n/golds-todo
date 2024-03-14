@@ -6,20 +6,9 @@ import Modal from "../Modal/Modal";
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import CheckButton from "../CheckButton/CheckButton";
-import { motion } from "framer-motion";
+import { Draggable } from "react-beautiful-dnd";
 
-const itemVariants = {
-    hidden: {
-        y: 20,
-        opacity: 0,
-    },
-    visible: {
-        y: 0,
-        opacity: 1,
-    },
-};
-
-function TodoItem({ todo }) {
+function TodoItem({ todo, index }) {
     const dispatch = useDispatch();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [isChecked, setIsChecked] = useState(false);
@@ -53,42 +42,53 @@ function TodoItem({ todo }) {
 
     return (
         <>
-            <motion.li className={styles.item} variants={itemVariants}>
-                <div className={styles.todoDetails}>
-                    <CheckButton
-                        isChecked={isChecked}
-                        handleCheck={handleCheck}
-                    />
-                    <div className={styles.texts}>
-                        <p
-                            className={`${styles.todoText} ${
-                                todo.status === "complete" && styles.completed
-                            }`}
-                        >
-                            {todo.title}
-                        </p>
-                        <div className={styles.time}>{todo.time}</div>
-                    </div>
-                </div>
-                <div className={styles.todoActions}>
-                    <div
-                        className={styles.icon}
-                        onClick={handleDelete}
-                        role="button"
-                        tabIndex={0}
+            <Draggable draggableId={todo.id} index={index}>
+                {(provided) => (
+                    <li
+                        ref={provided.innerRef}
+                        className={styles.item}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
                     >
-                        <MdDelete />
-                    </div>
-                    <div
-                        className={styles.icon}
-                        onClick={handleEdit}
-                        role="button"
-                        tabIndex={0}
-                    >
-                        <MdEdit />
-                    </div>
-                </div>
-            </motion.li>
+                        {provided.placeholder}
+                        <div className={styles.todoDetails}>
+                            <CheckButton
+                                isChecked={isChecked}
+                                handleCheck={handleCheck}
+                            />
+                            <div className={styles.texts}>
+                                <p
+                                    className={`${styles.todoText} ${
+                                        todo.status === "complete" &&
+                                        styles.completed
+                                    }`}
+                                >
+                                    {todo.title}
+                                </p>
+                                <div className={styles.time}>{todo.time}</div>
+                            </div>
+                        </div>
+                        <div className={styles.todoActions}>
+                            <div
+                                className={styles.icon}
+                                onClick={handleDelete}
+                                role="button"
+                                tabIndex={0}
+                            >
+                                <MdDelete />
+                            </div>
+                            <div
+                                className={styles.icon}
+                                onClick={handleEdit}
+                                role="button"
+                                tabIndex={0}
+                            >
+                                <MdEdit />
+                            </div>
+                        </div>
+                    </li>
+                )}
+            </Draggable>
             <Modal
                 type="update"
                 isModalOpen={isModalOpen}
