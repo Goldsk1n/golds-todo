@@ -10,6 +10,7 @@
     --primaryOrange: #feb204;
     --black-1: #646681;
     --black-2: #585858;
+    --font-1: #646681;
     --bg-1: #f8f8ff;
     --bg-2: #ecedf6;
     --bg-3: #cccdde;
@@ -19,15 +20,13 @@
     --white: white;
 }
 
-html {
-    font-size: 10px;
+[data-theme="dark"] {
+    --black-1: #9799b3;
+    --bg-1: #333333;
 }
 
-body {
-    font-family: "Poppins", sans-serif;
-    width: 100%;
-    min-height: 100vh;
-    background-color: var(--bg-1);
+html {
+    font-size: 10px;
 }
 
 * {
@@ -35,9 +34,8 @@ body {
 }
 
 .container {
-    width: 90%;
-    max-width: 1200px;
-    margin: 0 auto;
+    min-height: 100vh;
+    background-color: var(--bg-1);
 }
 
 .app-wrapper {

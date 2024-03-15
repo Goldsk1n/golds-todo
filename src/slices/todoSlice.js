@@ -11,9 +11,14 @@ const getInitialTodo = () => {
     }
 };
 
+const getInitialTheme = () => {
+    return window.localStorage.getItem("theme");
+};
+
 const initialState = {
     filterStatus: "all",
     todoList: getInitialTodo(),
+    theme: getInitialTheme(),
 };
 
 export const todoSlice = createSlice({
@@ -85,6 +90,10 @@ export const todoSlice = createSlice({
             );
             state.todoList = todoListArr;
         },
+        toggleTheme: (state, action) => {
+            window.localStorage.setItem("theme", action.payload);
+            state.theme = action.payload;
+        }
     },
 });
 
@@ -94,5 +103,6 @@ export const {
     updateTodo,
     updateFilterStatus,
     changeOrder,
+    toggleTheme
 } = todoSlice.actions;
 export default todoSlice.reducer;
