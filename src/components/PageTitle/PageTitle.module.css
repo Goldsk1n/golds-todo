@@ -11,3 +11,15 @@
 	margin-bottom: 1.5rem;
 	color: var(--black-1);
 }
+
+@media screen and (max-width: 720px) {
+    .title {
+        text-align: left;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .title {
+        font-size: 3rem;
+    }
+}

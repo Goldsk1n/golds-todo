@@ -36,6 +36,7 @@ html {
 .container {
     min-height: 100vh;
     background-color: var(--bg-1);
+    padding: 0 20px;
 }
 
 .app-wrapper {

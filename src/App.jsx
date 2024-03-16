@@ -9,7 +9,6 @@ import { toggleTheme } from "./slices/todoSlice";
 
 function App() {
     const initialTheme = useSelector(state => state.todo.theme);
-    console.log(initialTheme);
     const dispatch = useDispatch();
     const [theme, setTheme] = useState(initialTheme);
 

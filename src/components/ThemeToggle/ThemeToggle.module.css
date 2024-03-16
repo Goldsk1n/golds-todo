@@ -42,3 +42,25 @@
 .toggle:checked + label::after {
     transform: translateX(100%);
 }
+
+@media screen and (max-width: 800px) {
+    .container {
+        right: 2rem;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .container {
+        top: 0;
+    }
+
+    .toggle + label::after {
+        top: 2.56em;
+        left: 1.6em;
+        transition: background-color 250ms ease-in-out, transform 250ms ease-in-out;
+    }
+
+    .toggle + label {
+        flex-direction: column-reverse;
+    }
+}
