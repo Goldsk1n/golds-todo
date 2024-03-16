@@ -17,6 +17,7 @@ const getInitialTheme = () => {
 
 const initialState = {
     filterStatus: "all",
+    sortStatus: "default",
     todoList: getInitialTodo(),
     theme: getInitialTheme(),
 };
@@ -79,6 +80,9 @@ export const todoSlice = createSlice({
         updateFilterStatus: (state, action) => {
             state.filterStatus = action.payload;
         },
+        updateSortStatus: (state, action) => {
+            state.sortStatus = action.payload;
+        },
         changeOrder: (state, action) => {
             const todoList = window.localStorage.getItem("todoList");
             const todoListArr = JSON.parse(todoList);
@@ -102,6 +106,7 @@ export const {
     deleteTodo,
     updateTodo,
     updateFilterStatus,
+    updateSortStatus,
     changeOrder,
     toggleTheme
 } = todoSlice.actions;

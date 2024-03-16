@@ -8,6 +8,9 @@
 
 :root {
     --primaryOrange: #feb204;
+    --secondaryOrange: #de9200;
+    --primaryGray: #cccdde;
+    --secondaryGray: #acadbe;
     --black-1: #646681;
     --black-2: #585858;
     --font-1: #646681;
@@ -66,4 +69,16 @@ html {
 	background-color: var(--gray-2);
 	width: max-content;
 	height: auto;
+}
+
+.select-group {
+    display: flex;
+    gap: 5rem;
+    margin-bottom: 3rem;
+}
+
+@media screen and (max-width:480px) {
+    .select-group {
+        gap: 1rem;
+    }
 }

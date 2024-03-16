@@ -33,6 +33,8 @@ const dropIn = {
 
 function Modal({ type, isModalOpen, setIsModalOpen, todo }) {
     const [title, setTitle] = useState("");
+    const [dueDate, setDueDate] = useState(new Date());
+    const [priority, setPriority] = useState("medium");
     const [status, setStatus] = useState("incomplete");
     const dispatch = useDispatch();
 
@@ -40,6 +42,8 @@ function Modal({ type, isModalOpen, setIsModalOpen, todo }) {
         if (type === "update" && todo) {
             setTitle(todo.title);
             setStatus(todo.status);
+            setPriority(todo.priority);
+            setDueDate(todo.dueDate);
         } else {
             setTitle("");
             setStatus("incomplete");
@@ -54,9 +58,16 @@ function Modal({ type, isModalOpen, setIsModalOpen, todo }) {
         setTitle(e.target.value);
     };
 
+    const handleDueDateChange = (e) => {
+        setDueDate(e.target.value);
+    };
+
+    const handlePriorityChange = (e) => {
+        setPriority(e.target.value);
+    };
+
     const handleStatusChange = (e) => {
         setStatus(e.target.value);
-        console.log(e.target.value);
     };
 
     const handleSubmit = (e) => {
@@ -71,13 +82,16 @@ function Modal({ type, isModalOpen, setIsModalOpen, todo }) {
                         id: uuid(),
                         title,
                         status,
-                        time: new Date().toLocaleString(),
+                        dueDate,
+                        priority,
                     })
                 );
                 toast.success("Task Added Successfully");
             }
             if (type === "update") {
-                dispatch(updateTodo({ ...todo, title, status }));
+                dispatch(
+                    updateTodo({ ...todo, title, status, dueDate, priority })
+                );
                 toast.success("Task Updated Successfully");
             }
             closeModal();
@@ -90,8 +104,8 @@ function Modal({ type, isModalOpen, setIsModalOpen, todo }) {
                 <motion.div
                     className={styles.wrapper}
                     initial={{ opacity: 0 }}
-                    animate={{ opacity: 1}}
-                    exit={{opacity: 0}}
+                    animate={{ opacity: 1 }}
+                    exit={{ opacity: 0 }}
                 >
                     <motion.div
                         className={styles.container}
@@ -113,6 +127,28 @@ function Modal({ type, isModalOpen, setIsModalOpen, todo }) {
                                     onChange={handleTitleChange}
                                     autoFocus
                                 />
+                            </label>
+                            <label htmlFor="due-date">
+                                Due date
+                                <input
+                                    type="date"
+                                    id="due-date"
+                                    value={dueDate}
+                                    onChange={handleDueDateChange}
+                                    autoFocus
+                                />
+                            </label>
+                            <label htmlFor="priority">
+                                Priority
+                                <Select
+                                    id="priority"
+                                    onChange={handlePriorityChange}
+                                    value={priority}
+                                >
+                                    <option value="low">Low</option>
+                                    <option value="medium">Medium</option>
+                                    <option value="high">High</option>
+                                </Select>
                             </label>
                             <label htmlFor="status">
                                 Status

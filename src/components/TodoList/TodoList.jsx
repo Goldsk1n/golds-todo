@@ -8,6 +8,7 @@ import { useState } from "react";
 function TodoList() {
     const todoList = useSelector((state) => state.todo.todoList);
     const filterStatus = useSelector((state) => state.todo.filterStatus);
+    const sortStatus = useSelector((state) => state.todo.sortStatus);
     
     const [isDragging, setIsDragging] = useState(false);
 
@@ -41,7 +42,17 @@ function TodoList() {
         );
     };
 
-    const filteredTodoList = todoList.filter((item) => {
+    const priorityValue = {"low": 0, "medium": 1, "high": 2};
+
+    const sortedTodoList = [...todoList].sort((a, b) => {
+        if (sortStatus === "priority") {
+            return priorityValue[b.priority] - priorityValue[a.priority];
+        } else if (sortStatus === "due-date") {
+            return new Date(a.dueDate) - new Date(b.dueDate);
+        }
+    });
+
+    const filteredTodoList = sortedTodoList.filter((item) => {
         if (filterStatus === "all") {
             return true;
         } else {

@@ -1,10 +1,15 @@
 import styles from "./Select.module.css";
 
-function Select({children, ...props}) {
+function Select({ children, id, labelText, ...props }) {
     return (
-        <select className={styles.select} {...props}>
-            {children}
-        </select>
+        <div className={styles.selectContainer}>
+            <label htmlFor={id} className={styles.label}>
+                {labelText}
+            </label>
+            <select className={styles.select} id={id} {...props}>
+                {children}
+            </select>
+        </div>
     );
 }
 

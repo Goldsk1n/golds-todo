@@ -53,6 +53,7 @@ function TodoItem({ todo, index }) {
                         {provided.placeholder}
                         <div className={styles.todoDetails}>
                             <CheckButton
+                                priority={todo.priority}
                                 isChecked={isChecked}
                                 handleCheck={handleCheck}
                             />
@@ -65,7 +66,7 @@ function TodoItem({ todo, index }) {
                                 >
                                     {todo.title}
                                 </p>
-                                <div className={styles.time}>{todo.time}</div>
+                                <div className={styles.date}>Due date: {todo.dueDate}</div>
                             </div>
                         </div>
                         <div className={styles.todoActions}>

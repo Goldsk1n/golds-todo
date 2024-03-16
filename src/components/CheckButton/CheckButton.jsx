@@ -15,22 +15,24 @@ const checkVariants = {
 
 const boxVariants = {
     checked: {
+        outlineWidth: 0,
         background: "var(--primaryOrange)",
         transition: { duration: 0.1 },
     },
     unchecked: {
+        outlineWidth: "1px",
         background: "var(--gray-1)",
         transition: { duration: 0.1 },
     },
 };
 
-function CheckButton({ isChecked, handleCheck }) {
+function CheckButton({ isChecked, handleCheck, priority }) {
     const pathLength = useMotionValue(0);
     const opacity = useTransform(pathLength, [0.05, 0.15], [0, 1]);
 
     return (
         <motion.div
-            className={styles.svgBox}
+            className={`${styles.svgBox} ${isChecked ? "checked" : "unchecked"} ${priority}`}
             variants={boxVariants}
             animate={isChecked ? "checked" : "unchecked"}
             onClick={handleCheck}
