@@ -29,6 +29,8 @@ function Controls() {
         const handleResize = () => {
             setWidth(window.innerWidth);
         };
+        handleResize();
+        console.log(width);
 
         window.addEventListener("resize", handleResize);
 
