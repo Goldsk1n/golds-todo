@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Button from "../Button/Button";
 import Select from "../Select/Select";
 import Modal from "../Modal/Modal";
@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 function Controls() {
     const dispatch = useDispatch();
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [width, setWidth] = useState(0);
     const filterStatus = useSelector((state) => state.todo.filterStatus);
     const sortStatus = useSelector((state) => state.todo.sortStatus);
 
@@ -24,10 +25,20 @@ function Controls() {
         dispatch(updateFilterStatus(e.target.value));
     };
 
+    useEffect(() => {
+        const handleResize = () => {
+            setWidth(window.innerWidth);
+        };
+
+        window.addEventListener("resize", handleResize);
+
+        return () => window.removeEventListener("resize", handleResize);
+    }, [width]);
+
     return (
         <div className="app-header">
             <Button variant="primary" onClick={handleAddItemButton}>
-                Add Item
+                {width > 400 ? "Add Item" : "+"}
             </Button>
             <div className="select-group">
                 <Select
