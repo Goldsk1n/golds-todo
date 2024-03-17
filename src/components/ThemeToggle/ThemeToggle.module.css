@@ -55,7 +55,7 @@
     }
 
     .toggle + label::after {
-        top: 2.6em;
+        top: 45px;
         left: 1.6em;
         transition: background-color 250ms ease-in-out, transform 250ms ease-in-out;
     }
